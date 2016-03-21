@@ -1,0 +1,304 @@
+@import "normalize.min.css";
+
+$color-page-right: #CFCFCF;
+$color-item: #F0F0F0;
+$color-line: #1A9BD2;
+$color-page-left: #DADADA;
+$box-shadow-1: rgba(0, 0, 0, .2);
+$box-shadow-2: rgba(0, 0, 0, .1);
+$color-text: #555;
+$color-lever: rgba(255, 255, 255, 0.3);
+$color-lever-hover: rgba(255, 255, 255, 0.6);
+$color-sidebar: #86B3D3;
+
+$main-font: sans-serif;
+
+%leverLine {
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  height: 1px;
+  border-radius: 20px;
+  background: $color-line;
+  transform: translateY(-50%);
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: $color-page-right;
+  font-family: $main-font;
+  color: $color-text;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+div {
+  display: inline-block;
+}
+
+span {
+  display: inline-block;
+}
+
+section {
+  display: inline-block;
+}
+
+#bsb {
+  width: 100%;
+  height: 100%;
+}
+
+.bsb-content {
+  width: 100%;
+  height: 100%;
+}
+
+.bsb-workspace {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: width .6s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+.bsb-left-page {
+  position: relative;
+  padding: 50px;
+  height: 100%;
+  background: $color-page-left;
+  overflow-x: hidden;
+  overflow-y: auto;
+  float: left;
+  z-index: 0;
+}
+
+.bsb-right-page {
+  position: relative;
+  padding: 50px;
+  height: 100%;
+  float: left;
+  color: $color-item;
+  background: $color-page-right;
+  box-shadow: 0 0 3px $box-shadow-1;
+  z-index: 1;
+}
+
+.bsb-lever-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+  background: $color-lever;
+  transition: all .6s cubic-bezier(0.455, 0.03, 0.515, 0.955),
+              height .3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  z-index: 2;
+
+  &:hover {
+    height: 50px;
+    background: $color-lever-hover;
+    box-shadow: 0 0 3px $box-shadow-2;
+
+    .bsb-lever-progress-left {
+      height: 2px;
+      left: 20px;
+    }
+
+    .bsb-lever-progress-right {
+      height: 2px;
+      right: 20px;
+    }
+
+    .bsb-middle-lever::before {
+      bottom: 55px;
+      width: 2px;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #bar {
+      stroke-width: 2px;
+      stroke-dashoffset: 0;
+    }
+  }
+
+  #bar {
+    stroke: $color-line;
+    stroke-width: 1px;
+    stroke-dashoffset: 100.528;
+    stroke-dasharray: 100.528;
+    transition: all 0.3s linear;
+  }
+}
+
+.bsb-width-transition {
+  transition: width .3s cubic-bezier(0.455, 0.03, 0.515, 0.955),
+              height .6s cubic-bezier(0.455, 0.03, 0.515, 0.955),
+              left .6s cubic-bezier(0.455, 0.03, 0.515, 0.955),
+              right .6s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+.bsb-lever-progress-left {
+  @extend %leverLine;
+}
+
+.bsb-lever-progress-right {
+  @extend %leverLine;
+  left: auto;
+  right: 30px;
+}
+
+.bsb-middle-lever {
+  position: absolute;
+  top: 50%;
+  width: 36px;
+  height: 36px;
+  transform: translateY(-50%);
+}
+
+.bsb-middle-lever::before {
+  content: '';
+  position: absolute;
+  bottom: 75px;
+  left: 50%;
+  width: 1px;
+  height: 2000px;
+  background: $color-line;
+  border-radius: 20px;
+  transform: translateX(-50%);
+  z-index: 333333;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s cubic-bezier(0.455, 0.03, 0.515, 0.955),
+              width .3s cubic-bezier(0.455, 0.03, 0.515, 0.955),
+              bottom .6s cubic-bezier(0.455, 0.03, 0.515, 0.955),
+              visibility .6s linear;
+}
+
+video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+}
+
+.bsb-sidebar {
+  position: absolute;
+  left: -350px;
+  top: 0;
+  width: 350px;
+  height: 100%;
+  padding: 100px 20px 0;
+  background: $color-sidebar;
+  box-shadow: 0 0 3px $box-shadow-1;
+  transition: left .6s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  z-index: 333332;
+  overflow-y: auto;
+
+  &.is-visible {
+    left: 0;
+
+    + .bsb-workspace {
+      width: calc(100% - 350px);
+    }
+  }
+
+  .bsb-sidebar-item {
+    cursor: pointer;
+  }
+
+  .bsb-sidebar-button {
+    top: 25px;
+    left: 25px;
+    width: 35px;
+    height: 15px;
+    position: fixed;
+    transform: rotate(0deg);
+    transition: all .35s ease-in-out;
+    cursor: pointer;
+    z-index: 3333333;
+
+    &:hover {
+      transform: scale(1.25);
+
+      span {
+        height: 2px;
+      }
+    }
+
+    span {
+      display: block;
+      position: absolute;
+      height: 1px;
+      width: 100%;
+      background: $color-line;
+      border-radius: 20px;
+      opacity: 1;
+      left: 0;
+      transform: rotate(0deg);
+      transition: all .25s ease-in-out;
+      z-index: 3333333;
+
+      &:nth-child(1) {
+        top: 0;
+      }
+
+      &:nth-child(2) {
+        bottom: 0;
+      }
+    }
+
+    &.is-opened span {
+      background: $color-item;
+
+      &:nth-child(1) {
+        top: 50%;
+        transform: rotate(135deg);
+      }
+
+      &:nth-child(2) {
+        top: 50%;
+        transform: rotate(-135deg);
+      }
+    }
+  }
+}
+
+.bsb-sidebar-item {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100px;
+  margin-bottom: 20px;
+  background: $color-item;
+  box-shadow: 0 0 3px $box-shadow-1;
+  text-align: center;
+  line-height: 100px;
+  font-size: 64px;
+  font-weight: bold;
+  color: $color-line;
+
+  .bsb-item-delete-button {
+    position: absolute;
+    display: block;
+    top: 0px;
+    right: 0px;
+    width: 36px;
+    height: 36px;
+    font-size: 32px;
+    line-height: 36px;
+    cursor: pointer;
+  }
+}
